@@ -26,7 +26,7 @@ The infrastructure is defined using modules, which are reusable components that 
 
 The VPC module is then used to create a VPC with the specified name and CIDR block. It uses the availability zones provided and creates public subnets in those zones. The VPC is configured to allow instances launched within it to have a public IP address.
 
-The EC2 module is used to create EC2 instances. It first creates a security group allowing incoming traffic on ports 22 (SSH), 443 (HTTPS), 1337, and 3035 (both TCP and UDP) from any IP address. Then, it generates a key pair for each EC2 instance using the names provided. Finally, it creates EC2 instances of type "t2.micro" in the public subnets of the VPC. The instances are associated with the security group. Tags are added to the instances for identification purposes.
+The EC2 module is used to create EC2 instances. It first creates a security group allowing incoming traffic on ports 22 (SSH), 443 (HTTPS), 1337, and 3035 (both TCP and UDP) from any IP address. Then, it generates a key pair for each EC2 instance using the names provided. Finally, it creates EC2 instances of type "t2.micro" in the public subnets of the VPC. The instances are associated with the security group. Tags are added to the instances for identification purposes. Use by default the AMI of Amazon Linux 2.
 
 The code is designed to be scalable by using the "for_each" loop in the modules. By specifying additional EC2 names in the "ec2_names" variable, more EC2 instances can be created simply by adding them to the variable. This allows for easy scaling of the infrastructure.
 
