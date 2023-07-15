@@ -31,7 +31,35 @@ The EC2 module is used to create EC2 instances. It first creates a security grou
 The code is designed to be scalable by using the "for_each" loop in the modules. By specifying additional EC2 names in the "ec2_names" variable, more EC2 instances can be created simply by adding them to the variable. This allows for easy scaling of the infrastructure.
 
 Overall, this configuration sets up a VPC with public subnets, a security group, and EC2 instances on AWS. The use of modules and a scalable code structure enables easy management and expansion of the infrastructure.
- 
+
+## Jenkins
+
+I design a pipeline for Jenkins whit this stages:
+
+- Checkout: Checkout git repository with terraform files.
+- TF Validate: This stage validates the Terraform configuration by executing the terraform init and terraform validate commands. It also retrieves AWS credentials from Jenkins' credentials store based on the AWS_ACCOUNT parameter.
+
+- TF Plan: In this stage, the pipeline executes terraform plan -out myplan to generate an execution plan for the infrastructure changes. The plan is saved to the myplan file.
+
+- TF Approval: This stage prompts for user input to confirm whether to apply the Terraform changes. It presents a confirmation message and waits for user input through a boolean parameter.
+
+- TF Apply: If you confirms the previous stage, this stage applies the Terraform changes using the terraform apply -input=false myplan command. The infrastructure changes are deployed based on the execution plan generated in the previous stage.
+
+To add a Git webhook as the source for this Jenkins pipeline do:
+
+In the Jenkins project, go to the configuration page for the pipeline job you want to set up with a Git webhook.
+
+Under the "Build Triggers" section, select the option "GitHub hook trigger"
+
+Save the configuration to apply the changes.
+
+On Gogs go to the repository settings and webhook settings page.
+
+Add a new webhook and provide the Jenkins URL along with the endpoint path for the webhook.
+
+Configure the webhook to trigger to push events.
+
+
 ## Requirements
 
 Before using this code, make sure you have the following configured:
